@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>animateQueue</title>
+	<link rel="stylesheet" href="css/animate.css">
+	<style>
+		.cnv {
+			height: 600px;
+			width: 600px;
+			border: 1px solid #ccc;
+		}
+
+		.run{
+			height: 200px;
+			width: 200px;
+			background: #666;
+		}
+
+
+	</style>
+</head>
+<body>
+	
+	<div class="cnv">
+		<div class="run">
+			
+		</div>
+	</div>
+
+	<script src= 'animatequeue.js'></script>
+</body>
+
+<script>
+	var animateQueue = new AnimateQueue('.cnv');
+	animateQueue.add('.run', 'bounce')
+				.add('.run', 'flash')
+				.add('.run', 'pulse')
+				.add('.run', 'shake')
+				.run();
+</script>
+</html>
