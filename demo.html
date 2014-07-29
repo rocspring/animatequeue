@@ -15,6 +15,8 @@
 			height: 200px;
 			width: 200px;
 			background: #666;
+			margin: auto;
+			margin-top: 200px;
 		}
 
 
@@ -33,10 +35,12 @@
 
 <script>
 	var animateQueue = new AnimateQueue('.cnv');
-	animateQueue.add('.run', 'bounce')
-				.add('.run', 'flash')
-				.add('.run', 'pulse')
-				.add('.run', 'shake')
+	animateQueue.add('.run', 'bounceInLeft')
+				.add('.run', 'bounceInRight')
+				.add('.run', 'bounceInDown')
+				.add('.run', 'bounceInUp')
+				.add('.run', 'bounceIn')
+				.add('.run', 'fadeInDownBig')
 				.run();
 </script>
 </html>

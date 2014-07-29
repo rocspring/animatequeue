@@ -54,13 +54,22 @@
 
 		_fire : function () {
 			var locked = this.locked,
-				queue = this.queue;
+				queue = this.queue,
+				that = this,
+				executeAnimateTimer;
 			if(!locked){
 				var nowAnimate = queue.shift();
 
 				if(nowAnimate){
 					locked = true;
 					nowAnimate();
+					//每个动画的时间是1s,因此延迟1000ms执行下一个动画
+					//仅支持animate动画
+					clearTimeout(executeAnimateTimer);
+					executeAnimateTimer =setTimeout(function () {
+						locked = false;
+						that.fire();
+					}, 1000);
 				}else{
 					locked = false;
 				}
@@ -82,13 +91,15 @@
 		_executeAnimate : function (element, animateName ) {
 			var that = this;
 
-			//执行动画
 			addClass(element, animateName);
-			
-			element.addEventListener('webkitAnimationEnd', function () {
-				that.fire();
+			// console.log('执行动画' +animateName+ (Math.random().toString().substring(2,15)) );
+			//animate的每一个动画是有几个动画组成的，会触发多次webkitAnimationEnd
+			//事件，造成有的动画无法执行的bug，放弃这种方法
+			/*element.addEventListener('webkitAnimationEnd', function () {
 				that.locked = false;
-			}, false);
+				that.fire();
+				console.log('执行动画' +animateName+ (Math.random().toString().substring(2,15)) );
+			}, false);*/
 		}
 	};
 
