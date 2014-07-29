@@ -64,7 +64,7 @@
 					locked = true;
 					nowAnimate();
 					//每个动画的时间是1s,因此延迟1000ms执行下一个动画
-					//仅支持animate动画
+					//仅支持animate动画组件
 					clearTimeout(executeAnimateTimer);
 					executeAnimateTimer =setTimeout(function () {
 						locked = false;
@@ -92,14 +92,6 @@
 			var that = this;
 
 			addClass(element, animateName);
-			// console.log('执行动画' +animateName+ (Math.random().toString().substring(2,15)) );
-			//animate的每一个动画是有几个动画组成的，会触发多次webkitAnimationEnd
-			//事件，造成有的动画无法执行的bug，放弃这种方法
-			/*element.addEventListener('webkitAnimationEnd', function () {
-				that.locked = false;
-				that.fire();
-				console.log('执行动画' +animateName+ (Math.random().toString().substring(2,15)) );
-			}, false);*/
 		}
 	};
 
