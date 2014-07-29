@@ -1,6 +1,6 @@
 /*
 *@author wshp
-*version:0.0.1
+*version:0.0.2
 *需要依赖animate.css库，地址：http://daneden.github.io/animate.css/
 *
 */
