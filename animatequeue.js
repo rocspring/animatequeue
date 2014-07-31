@@ -1,6 +1,6 @@
 /*
 *@author wshp
-*version:0.0.2
+*version:0.0.3
 *需要依赖animate.css库，地址：http://daneden.github.io/animate.css/
 *
 */
@@ -43,6 +43,11 @@
 			return this;
 		},
 
+		//停止动画
+		stop: function () {
+			this._clear();
+		},
+
 		//触发动画的执行
 		fire : function () {
 			if(this.len > 0){
@@ -50,6 +55,11 @@
 			}else{
 				return;
 			}
+		},
+
+
+		_clear: function () {
+			this.queue.length = 0;
 		},
 
 		_fire : function () {
