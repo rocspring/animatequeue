@@ -14,13 +14,22 @@
 	AnimateQueue.prototype = {
 
 		//动画队列
+		//里面的参数是一个对象
+		//{
+		//	func : fuction(){},
+		//  duration : 1000
+		//}
 		queue : [],
+
 
 		//动画队列的长度
 		len : 0,
 
 		//动画锁
 		locked : false,
+
+		//默认的动画执行时间
+		defaultTime: 1000,
 
 		init : function (element) {
 			element = (typeof element === 'string') ? document.querySelector(element) : element;
@@ -34,11 +43,12 @@
 		},
 
 		//添加动画
-		add : function (element, animateName) {
+		//使用默认的动画添加方法，可以不添加动画执行时间
+		add : function (element, animateName, time) {
 			if( !element || !animateName ) return;
 
 			element = (typeof element === 'string') ? this.el.querySelector(element) : element;
-			this._addAnimate(element, animateName);
+			this._addAnimate(element, animateName, time);
 
 			return this;
 		},
@@ -68,18 +78,21 @@
 				that = this,
 				executeAnimateTimer;
 			if(!locked){
-				var nowAnimate = queue.shift();
-
+				var nowAnimateObj = queue.shift(),
+					nowAnimate = nowAnimateObj.func,
+					animateTime = nowAnimateObj.time;
+				this.len--;
 				if(nowAnimate){
 					locked = true;
 					nowAnimate();
+					console.log(this.len);
 					//每个动画的时间是1s,因此延迟1000ms执行下一个动画
 					//仅支持animate动画组件
 					clearTimeout(executeAnimateTimer);
 					executeAnimateTimer =setTimeout(function () {
 						locked = false;
 						that.fire();
-					}, 1000);
+					}, animateTime);
 				}else{
 					locked = false;
 				}
@@ -87,12 +100,15 @@
 		},
 
 		//添加动画	
-		_addAnimate : function (element, animateName) {
-			var that = this,
-				func = that.fire;
+		_addAnimate : function (element, animateName, time) {
+			var that = this;
 
-			this.queue.push(function () {
-				that._executeAnimate( element, animateName);
+			time = !time ? 1000 : that.defaultTime;
+			this.queue.push({
+				func : function () {
+						that._executeAnimate( element, animateName);
+					},
+				time : time
 			});
 			this.len++;
 		},
@@ -100,8 +116,12 @@
 		//执行动画
 		_executeAnimate : function (element, animateName ) {
 			var that = this;
-
-			addClass(element, animateName);
+			if (typeof animateName === 'string') {
+				addAnimateClass(element, animateName);
+			}else if( typeof animateName === 'function'){
+				animateName();
+			}
+			
 		}
 	};
 
@@ -109,9 +129,9 @@
 	window.AnimateQueue = AnimateQueue;
 
 
-	//本组件专用的添加动画的方法
+	//本组件默认的添加动画的方法
 	//必需的class样式：animated
-	function addClass ( element, animateName ) {
+	function addAnimateClass ( element, animateName ) {
 		var classNames,
 			classArr,
 			classStr;
