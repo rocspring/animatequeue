@@ -70,6 +70,7 @@
 
 		_clear: function () {
 			this.queue.length = 0;
+			this.len = 0;
 		},
 
 		_fire : function () {
