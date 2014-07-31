@@ -86,9 +86,7 @@
 				if(nowAnimate){
 					locked = true;
 					nowAnimate();
-					console.log(this.len);
-					//每个动画的时间是1s,因此延迟1000ms执行下一个动画
-					//仅支持animate动画组件
+					//延迟上一个动画的时间执行下一个动画
 					clearTimeout(executeAnimateTimer);
 					executeAnimateTimer =setTimeout(function () {
 						locked = false;
