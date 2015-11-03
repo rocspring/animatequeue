@@ -33,18 +33,19 @@
 			
 		</div>
 	</div>
-
-	<script src= 'animatequeue.js'></script>
+	
+	<script src= 'animate-end.js'></script>
+	<script src= 'animate-queue.js'></script>
 </body>
 
 <script>
 	var animateQueue = new AnimateQueue('.cnv');
-	animateQueue.add('.run', 'bounceInLeft')
-				.add('.run', 'bounceInRight')
-				.add('.run', 'bounceInDown')
-				.add('.run', 'bounceInUp')
-				.add('.run', 'bounceIn')
-				.add('.run', 'fadeInDownBig')
+	animateQueue.add('.run', 'bounceInLeft', 1000)
+				.add('.run', 'bounceInRight', 1000)
+				.add('.run', 'bounceInDown', 1000)
+				.add('.run', 'bounceInUp', 1000)
+				.add('.run', 'bounceIn', 1000)
+				.add('.run', 'fadeInDownBig', 1000)
 				.run();
 
 	setTimeout(function () {

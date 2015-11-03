@@ -24,8 +24,8 @@
 		vender = getVender(),
 
 		prefixName = (function(){
-			if (vendor == 'webkit' || vendor === 'O') {
-                return vendor.toLowerCase();
+			if (vender == 'webkit' || vender === 'O') {
+                return vender.toLowerCase();
             }
 
             return '';
@@ -40,34 +40,27 @@
 
 	/**
 	 * @desc 监听动画结束事件
-	 * @param {String} type 动画的类型 有'transtion' 和 'animation'两种
 	 * @param {Object} target 执行动画的dom对象
 	 * @param {Number} duration 动画执行的时间(单位：毫秒)
 	 * @param {Function} callback 动画结束后的回调
 	 */
-	function listenAnimation( type, target, duration, callback ) {
+	function listenAnimation( target, duration, callback ) {
 
 		var that = this,
-			endEvent = null,
 			fired = false; // 判断动画结束事件是否执行
 
-		if(!!target){
+		if(!target){
 			return;
 		}
 
-		if (type === 'transtion') {
-			endEvent = transtionEndEvent;
-		} else if (type === 'animation') {
-			endEvent = animationEndEvent;
-		}
-
 		var clear = function() {
-			if (target.animationEndTimer) {
-				clearTimeout(target.animationEndEvent);
+			if (target.endTimer) {
+				clearTimeout(target.endTimer);
 			}
 
-				target.animationEndTimer = null;
-				target.removeEventListener(endEvent, callback, false);
+				target.endTimer = null;
+				target.removeEventListener(transtionEndEvent, proxyCallback, false);
+				target.removeEventListener(animationEndEvent, proxyCallback, false);
 			},
 
 			proxyCallback = function() {
@@ -75,15 +68,19 @@
 				fired = true;
 
 				if (!!callback) {
-					return callback.call(that);
+					// 延迟25ms执行回调，使得动画可以完美的执行
+					setTimeout(function(){
+						return callback.call(that);
+					}, 25);
 				}
 			};
 
 		if( duration > 0 ) {
-			target.addEventListener( endEvent, proxyCallback, false);
+			target.addEventListener( transtionEndEvent, proxyCallback, false);
+			target.addEventListener( animationEndEvent, proxyCallback, false);
 
 			// 部分安卓手机不能触发动画结束事件
-			target.animationEndTimer = setTimeout(function(){
+			target.endTimer = setTimeout(function(){
 				if(fired){
 					return;
 				}
