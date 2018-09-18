@@ -1,7 +1,7 @@
 animatequeue
 ============
 
-一个简单的动画队列组件
+a simple animate queue lib
 
-依赖animate.css库
+depend animate.css
 地址：http://daneden.github.io/animate.css/
